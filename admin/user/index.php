@@ -4,6 +4,7 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,25 +14,20 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../app/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="../../app/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="../../app/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="../../app/plugins/jqvmap/jqvmap.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../app/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../app/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../app/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="../../app/plugins/bootstrap/css/bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../app/dist/css/adminlte.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="../../app/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="../../app/plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="../../app/plugins/summernote/summernote-bs4.min.css">
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed dark-mode">
-<div class="wrapper">
+  <div class="wrapper">
 
   <!-- Preloader -->
   <?php include '../../include/preloader.php'?>
@@ -70,18 +66,18 @@
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
         </a>
-      </li>
+      </li> -->
     </ul>
   </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
   <?php include '../../include/sidebar.php'?>
-  
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -93,7 +89,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
               <li class="breadcrumb-item active">Data User</li>
             </ol>
           </div><!-- /.col -->
@@ -103,7 +99,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -118,45 +114,58 @@
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                 <thead>
-                  <tr>
-                    <th>No</th>
+                  <tr class="text-center">
+                    <th width="20px">No</th>
                     <th>Nama</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Password</th>
                     <th>Role</th>
+                    <th>Foto</th>
                     <th>Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php if (mysqli_num_rows($query)>0) {?>
-                  <?php 
+                  <?php
                   $no = 1;
                   while ($data = mysqli_fetch_array($query)){
                   ?>
                   <tr>
-                    <td><?php echo $no?></td>
-                    <td><?php echo $data['nama']?></td>
-                    <td><?php echo $data['username']?></td>
-                    <td><?php echo $data['email']?></td>
-                    <td><?php echo $data['password']?></td>
-                    <td><?php echo $data['role']?></td>
-                    <td>
-                        <a href="edit.php?id_user=<?php echo $data['id_user']?>" class="btn btn-primary"><i class="far fa-edit"></i></a>
-                        <a href="hapus.php?id_user=<?php echo $data['id_user']?>" onclick="return confirm('Yakin Hapus data?')" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                    <td class="text-center"><?= $no?></td>
+                    <td><?= $data['nama']?></td>
+                    <td><?= $data['username']?></td>
+                    <td><?= $data['email']?></td>
+                    <td><?= substr($data['password'], 0, 10)?></td>
+                    <td><?= $data['role']?></td>
+                    <td class="text-center">
+                      <?php
+                        if($data['foto_user'] == NULL && $data['role'] == 'admin'){
+                          echo "<img src=../../include/img-user/avatar5.png style=height:35px;>";
+                        } elseif ($data['foto_user'] == NULL && $data['role'] == 'user'){
+                          echo "<img src=../../include/img-user/user.png style=height:35px;>";
+                        } else {
+                          echo "<img src=../../include/img-user/$data[foto_user] style=height:35px;>";
+                        }
+                      ?>
+                    </td>
+                    <td width="120px" class="text-center">
+                        <a href="edit.php?username=<?= $data['username']?>" class="btn btn-primary"><i class="far fa-edit"></i></a>
+                        <a href="proses_delete.php?username=<?= $data['username']?>" onclick="return confirm('Yakin Hapus data?')" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
                     </td>
                     </tr>
                     <?php $no++; } ?>
                     <?php } ?>
                   </tbody>
                   <tfoot>
-                  <tr>
+                  <tr class="text-center">
                     <th>No</th>
                     <th>Nama</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Password</th>
                     <th>Role</th>
+                    <th>Foto</th>
                     <th>Aksi</th>
                   </tr>
                   </tfoot>
@@ -176,40 +185,42 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Footer -->
-  <?php include '../../include/footer.php'?>
-</div>
-<!-- ./wrapper -->
+    <!-- Footer -->
+    <?php include '../../include/footer.php'?>
+  </div>
+  <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="../../app/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="../../app/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
+  <!-- jQuery -->
+  <script src="../../app/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../../app/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+  <!-- DataTables  & Plugins -->
+  <script src="../../app/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../../app/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../../app/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../../app/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="../../app/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="../../app/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <script src="../../app/plugins/jszip/jszip.min.js"></script>
+  <script src="../../app/plugins/pdfmake/pdfmake.min.js"></script>
+  <script src="../../app/plugins/pdfmake/vfs_fonts.js"></script>
+  <script src="../../app/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+  <script src="../../app/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+  <script src="../../app/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <!-- AdminLTE -->
+  <script src="../../app/dist/js/adminlte.min.js"></script>
+
+  <script>
+  $(function () {
+    $("#aktorTable").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#aktorTable_wrapper .col-md-6:eq(0)');
+  });
 </script>
-<!-- Bootstrap 4 -->
-<script src="../../app/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="../../app/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="../../app/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="../../app/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="../../app/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="../../app/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="../../app/plugins/moment/moment.min.js"></script>
-<script src="../../app/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="../../app/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="../../app/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="../../app/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../app/dist/js/adminlte.js"></script>
 </body>
+
 </html>

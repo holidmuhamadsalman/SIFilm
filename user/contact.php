@@ -1,3 +1,5 @@
+<!-- <?php include 'proses-login.php';?> -->
+
 <!doctype html>
 <html class="no-js" lang="">
     <head>
@@ -7,8 +9,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-        <!-- Place favicon.ico in the root directory -->
+		<!-- icon sifilm -->
+        <link rel="shortcut icon" href="assets/images/ic_sifilm.png">
 
         <!-- Icon -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -28,19 +30,14 @@
         <link rel="stylesheet" href="./assets/css/responsive.css">
         <link rel="stylesheet" href="./assets/css/style-nav-foot.css">
     </head>
-    <body>
+    <body id="top">
 
         <!-- preloader -->
         <?php include ('./include/preloader.php');?>
-
-		<!-- Scroll-top -->
-        <button class="scroll-bottom scroll-to-target" data-target="html">
-            <i class="fa-solid fa-angle-up"></i>
-        </button>
         <!-- Scroll-top-end-->
 
         <!-- header-area -->
-        <?php include('navbar.php');?>
+        <?php include('./include/navbar.php');?>
 
         <!-- main-area -->
         <main>
@@ -107,9 +104,18 @@
 
         </main>
         <!-- main-area-end -->
+        
 
         <!-- footer-area -->
-        <?php include('footer.php');?>
+        <?php include('./include/footer.php');?>
+        <!--  #GO TO TOP -->
+        <a href="#top" class="go-top" data-go-top>
+            <ion-icon name="chevron-up"></ion-icon>
+        </a>
+        <!-- ionicon link -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="../src/index.js"></script>
         
 		<!-- JS here -->
         <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="./assets/js/vendor/jquery-3.6.0.min.js"></script>

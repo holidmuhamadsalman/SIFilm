@@ -18,6 +18,6 @@
     if(!$query){
         die ("Query gagal dijalankan: ".mysqli_errno($conn)." - ".mysqli_error($conn));
     } else {            
-        echo "<script>alert('Data berhasil ditambahkan');window.location='index.php';</script>";
+        echo "<script>alert('Data berhasil diubah');window.location='index.php';</script>";
     }
 ?> 

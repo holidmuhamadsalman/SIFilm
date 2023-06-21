@@ -1,9 +1,9 @@
 <?php
   include "../../config.php";
 
-  $id_user = $_GET["id_user"];
+  $username = $_GET["username"];
   
-  $query = "DELETE FROM login WHERE id_user='$id_user' ";
+  $query = "DELETE FROM login WHERE username='$username' ";
   $hasil_query = mysqli_query($conn, $query);
 
   if(!$hasil_query) {

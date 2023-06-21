@@ -32,6 +32,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
+
     <a href="index3.html" class="brand-link">
       <img src="../../app/dist/img/SiFilm.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .6">
       <br>
@@ -39,13 +40,22 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
+
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <?php
+          $sql = mysqli_query($conn,"SELECT * FROM login") or die(mysqli_error($con));
+          $data = mysqli_fetch_array($sql);
+        ?>
         <div class="image">
-          <img src="../../app/dist/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+          <?php if(($data['foto_user']) == NULL){?>
+            <?php echo "<img src=../../include/img-user/avatar5.png class=img-circle elevation-2 alt=User Image>";
+          } else {
+           echo "<img src=../../include/img-user/$data[foto_user] class=img-circle elevation-2 alt=User Image>";
+          } ?>
         </div>
         <div class="info">
-          <a href="#" class="d-block">Admin</a>
+          <a class="d-block"><?=$data['nama']?></a>
         </div>
       </div>
 
@@ -67,7 +77,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="./../index.php" class="nav-link">
+            <a href="./../index.php" class="nav nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -75,7 +85,7 @@
             </a>
           </li>
           <li class="nav-item">
-                <a href="../user/index.php" class="nav-link">
+                <a href="../user/index.php" class="nav nav-link">
                   <i class="far fa-user nav-icon"></i>
                   <p>Data User</p>
                 </a>
@@ -99,8 +109,20 @@
                 </a>
           </li>
           <li class="nav-item">
+                <a href="../peran/index.php" class="nav-link">
+                  <i class="fas fa-users nav-icon"></i>
+                  <p>Data Peran</p>
+                </a>
+          </li>
+          <li class="nav-item">
+                <a href="../produksi/index.php" class="nav-link">
+                  <i class="fas fa-video nav-icon"></i>
+                  <p>Data Produksi</p>
+                </a>
+          </li>
+          <li class="nav-item">
                 <a href="../genre/index.php" class="nav-link">
-                  <i class="fas fa-user nav-icon"></i>
+                  <i class="fas fa-theater-masks nav-icon"></i>
                   <p>Data Genre</p>
                 </a>
           </li>
@@ -111,15 +133,15 @@
                 </a>
           </li>
           <li class="nav-item">
-                <a href="../komentar/index.php" class="nav-link">
-                <i class="fas fa-comments nav-icon"></i>
-                  <p>Data Komentar</p>
-                </a>
-          </li>
-          <li class="nav-item">
                 <a href="../rating/index.php" class="nav-link">
                   <i class="fas fa-splotch nav-icon"></i>
                   <p>Data Rating</p>
+                </a>
+          </li>
+          <li class="nav-item">
+                <a href="../../logout.php" class="nav-link bg-black">
+                  <i class="fas fa-sign-out-alt nav-icon"></i>
+                  <p>Log Out</p>
                 </a>
           </li>
         </ul>
@@ -143,10 +165,6 @@
 <script src="../app/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="../app/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
 <!-- Bootstrap 4 -->
 <script src="../app/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->
@@ -172,13 +190,5 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-          $('ul li a').click(function(){
-            $('li a').removeClass("active");
-            $(this).addClass("active");
-        });
-    });
-</script>
 </body>
 </html>

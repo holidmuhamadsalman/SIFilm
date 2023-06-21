@@ -2,6 +2,7 @@
   include "../../config.php";
   $query = mysqli_query($conn, "SELECT * FROM film");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +35,6 @@
 <div class="wrapper">
 
   <!-- Preloader -->
-  <?php include '../../include/preloader.php'?>
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-light dark-mode">
@@ -42,12 +42,6 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
       </li>
     </ul>
 
@@ -90,7 +84,7 @@
 
   <!-- Main Sidebar Container -->
   <?php include '../../include/sidebar.php'?>
-  
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -102,8 +96,9 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Data User</li>
+              <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
+              <li class="breadcrumb-item"><a href="../index.php">Data User</a></li>
+              <li class="breadcrumb-item active">Tambah Data User</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -126,14 +121,14 @@
                 <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="nama" class="col-form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama" required>
+                        <label for="username" class="col-form-label">Username</label>
+                        <input type="text" class="form-control" name="username" required>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="username" class="col-form-label">Username</label>
-                        <input type="text" class="form-control" name="username" required>
+                        <label for="nama" class="col-form-label">Nama</label>
+                        <input type="text" class="form-control" name="nama" required>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -145,18 +140,34 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="password" class="col-form-label">Password</label>
-                        <input type="text" class="form-control" name="password" required>
+                        <input type="password" id="password" class="form-control" name="password" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="password"  class="col-form-label">Konfirmasi Password</label>
+                        <input type="password" id="password2" class="form-control" name="password2" required>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                     <label for="role">Role</label>
                     <select class="form-control select2" style="width: 100%;" name="role">
-                        <option value=""></option>
-                        <option value="admin">admin</option>
                         <option value="user">user</option>
+                        <option value="admin">admin</option>
                     </select>
                     </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="foto_user" class="col-form-label">Foto</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="foto_user" name="foto_user" accept="image/*">
+                        <label class="custom-file-label" for="foto_user">Choose file</label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-1">
@@ -215,6 +226,12 @@
 <script src="../../app/plugins/summernote/summernote-bs4.min.js"></script>
 <!-- overlayScrollbars -->
 <script src="../../app/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
+<!-- Foto -->
+<script>
+  $(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
+</script>
 </body>
 </html>

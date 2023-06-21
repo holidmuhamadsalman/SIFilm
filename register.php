@@ -1,3 +1,44 @@
+<?php
+  session_start();
+  $invalid = 0;
+  if($_SERVER['REQUEST_METHOD']=='POST'){
+    include 'config.php';
+    $nama = $_POST["nama"];
+    $username = $_POST["username"];
+    $email = $_POST["email"]; 
+    $password = md5($_POST["password"]);
+    $password2 = md5($_POST["password2"]);
+
+    $cek = mysqli_query($conn,"SELECT * FROM login WHERE username='$username'");
+    if($cek){
+      $num=mysqli_num_rows($cek);
+      if($num > 0){
+        echo'<script>
+                alert("username ini sudah terdaftar, silahkan coba dengan username lain !");
+                window.location="register.php";
+             </script>';
+      } else {
+        if($_SESSION["code"] != $_POST["kode"]){
+          //jika code captcha salah mmaka akan kembali ke halaman sebelumnya
+          echo "<script>alert('captcha yang anda masukkan salah');history.go(-1);</script>";
+        }else{
+        if($password === $password2){
+        $save = mysqli_query($conn,"INSERT INTO login(username,nama,email,password) VALUES('$username','$nama','$email', '$password')");
+        if($save){
+          echo'<script>
+          alert("Registrasi Berhasil");
+          window.location="index.php"; 
+       </script>';
+        }
+        } else {
+          $invalid = 1;
+        }
+      }
+   }
+
+  }
+}
+?>  
 <!DOCTYPE html>
 <html lang="en">
     
@@ -26,19 +67,18 @@
     <link rel="stylesheet" href="app/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="app/dist/css/adminlte.min.css">
+    
 </head>
 
 <body id="top">
-    <!-- HEADER -->
-    <?php include('/navbar.php');?>
     <main>
         <article>
         <!-- #HERO -->
         <section class="hero2" id="mulai">
             <div class="container col-5">
                 <div class="">
-                    <p class="hero-subtitle">SIFilm</p>
-                    <h1 class="h1 hero-title">Unlimited <strong>Movie</strong>, TVs Shows, & More.</h1>
+                  <p class="hero-subtitle">Welcome to SIFilm</p>
+                  <h1 class="h1 hero-title">Unlimited <strong>Film</strong><br>For you</h1>
                 </div>
             </div>
             <div class="col-5">
@@ -48,51 +88,49 @@
                   <a href="" class="h1"><b>SIF</b>ilm</a>
                 </div>
                 <div class="card-body">
-                  <p class="login-box-msg">Register a new account</p>
-
-                  <form action="auth.php" method="post">
+                  <p class="register-box-msg">Register a new account</p>
+                  <form action="register.php" method="post">
+                  <div class="input-group mb-3">
+                    <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama Lengkap">
+                    <div class="error"></div>
+                  </div>
                     <div class="input-group mb-3">
-                      <input type="text" name="username" class="form-control" placeholder="Username">
-                      <div class="input-group-append">
-                        <div class="input-group-text">
-                          <span class="fas fa-user"></span>
-                        </div>
-                      </div>
+                      <input type="text" id="username" name="username" class="form-control" placeholder="Username">
+                      <div class="error"></div>
                     </div>
                     <div class="input-group mb-3">
-                      <input type="email" name="email" class="form-control" placeholder="Email">
-                      <div class="input-group-append">
-                        <div class="input-group-text">
-                          <span class="fas fa-envelope"></span>
-                        </div>
-                      </div>
+                      <input type="email" id="email" name="email" class="form-control" placeholder="Email">
+                      <div class="error"></div>
                     </div>
                     <div class="input-group mb-3">
-                      <input type="password" name="password" class="form-control" placeholder="Password">
-                      <div class="input-group-append">
-                        <div class="input-group-text">
-                          <span class="fas fa-lock"></span>
-                        </div>
-                      </div>
+                      <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                      <div class="error"></div>
                     </div>
                     <div class="input-group mb-3">
-                      <input type="password" class="form-control" placeholder="Retype password">
-                      <div class="input-group-append">
-                        <div class="input-group-text">
-                          <span class="fas fa-lock"></span>
-                        </div>
-                      </div>
+                      <input type="password" id="password2" name="password2" class="form-control" placeholder="Retype password">
+                    </div>
+                      <?php 
+                      if($invalid) {
+                        echo '<div class="text-danger mt-0 mb-3"><i>*Password tidak cocok</i></div>';
+                      }
+                      ?>
+                    <div class="input-group mb-3">
+                        <img src="captcha.php" alt="gambar" /> 
+                    </div>
+                    <div class="input-group mb-3">
+                        <input class="form-control" name="kode" value="" placeholder="kode captcha" maxlength="5"/>
                     </div>
                     <div class="row">
                       <!-- /.col -->
                       <div class="col-4">
-                        <button type="submit" class="btn btn-outline">Register</button>
+                        <button type="submit" class="btn btn-sm">Register</button>
                       </div>
                       <!-- /.col -->
                     </div>
                   </form>
-
-                  <a href="index.php" class="text-center">I already have a account</a>
+                  <p class="mt-3">
+                      <a href="index.php" class="text-center">Saya sudah memiliki akun</a>
+                  </p>
                 </div>
                 <!-- /.form-box -->
               </div><!-- /.card -->
@@ -111,17 +149,14 @@
             <img
               src="resources/tv-2.png"
               alt="Feature image"
-              class="feature-image feature-3-image"
-            />
+              class="feature-image feature-3-image"/>
             <div
-              class="feature-bg-video-container feature-3-bg-video-container"
-            >
+              class="feature-bg-video-container feature-3-bg-video-container">
               <video
                 autoplay=""
                 loop=""
                 muted=""
-                class="feature-bg-video feature-3-bg-video"
-              >
+                class="feature-bg-video feature-3-bg-video">
                 <source src="resources/video-2.m4v" type="video/mp4" />
               </video>
             </div>
@@ -153,6 +188,9 @@
     <script src="app/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="app/dist/js/adminlte.min.js"></script>
+    <!-- Validation -->
+    <script src="app/dist/js/register.js"></script>
+
 
 </body>
 </html>

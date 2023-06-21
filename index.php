@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     
@@ -37,8 +38,8 @@
         <section class="hero2" id="mulai">
             <div class="container col-5">
                 <div class="">
-                    <p class="hero-subtitle">SIFilm</p>
-                    <h1 class="h1 hero-title">Unlimited <strong>Movie</strong>, TVs Shows, & More.</h1>
+                <p class="hero-subtitle">Welcome to SIFilm</p>
+                <h1 class="h1 hero-title">Unlimited <strong>Film</strong><br>For you</h1>
                 </div>
             </div>
             <div class="col-5">  
@@ -50,9 +51,9 @@
                     </div>
                     <div class="card-body">
                       <p class="login-box-msg">Masuk untuk memulai sesi Anda</p>
-                      <form action="auth.php" method="post">
+                      <form action="cek_login.php" method="post">
                         <div class="input-group mb-3">
-                          <input type="text" name="username" class="form-control" placeholder="Username">
+                          <input type="text" id="username" name="username" class="form-control" placeholder="Username">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-envelope"></span>
@@ -60,13 +61,14 @@
                           </div>
                         </div>
                         <div class="input-group mb-3">
-                          <input type="password" name="password" class="form-control" placeholder="Password">
+                          <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-lock"></span>
                             </div>
                           </div>
                         </div>
+                        
                         <div class="row">
                           <!-- /.col -->
                           <div class="col-4">

@@ -1,28 +1,14 @@
 <?php
   include "../../config.php";
-  $query = mysqli_query($conn, "SELECT * FROM film");
-  if (isset($_GET['id_film'])) {
-    $id_film = ($_GET["id_film"]);
-
-    $query = "SELECT * FROM film WHERE id_film='$id_film'";
-    $result = mysqli_query($conn, $query);
-    if(!$result){
-      die ("Query Error: ".mysqli_errno($conn)." - ".mysqli_error($conn));
-    }
-    $data = mysqli_fetch_assoc($result);
-    if (!count($data)) {
-      echo "<script>alert('Data tidak ditemukan pada database');window.location='index.php';</script>";
-    }
-  } else {
-      echo "<script>alert('Masukkan data id_film.');window.location='index.php';</script>";
-  }
+  $query = mysqli_query($conn, "SELECT * FROM film JOIN genre ON film.id_genre=genre.id_genre AND id_film='$_GET[id_film]'");
+  $data = mysqli_fetch_array($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Data user</title>
+  <title>Data Film</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -58,37 +44,10 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
@@ -135,10 +94,6 @@
         <input type="hidden" name="id_film" value="<?=$data['id_film']?>">
           <div class="col-12">
             <div class="card">
-              <!-- <div class="card-header">
-                  edit Data
-              </div> -->
-              <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
                 <div class="col-md-12">
@@ -171,29 +126,24 @@
                         <input type="text" class="form-control" name="link_trailer" required value="<?= $data['link_trailer']; ?>">
                     </div>
                 </div>
-                <?php $film = mysqli_query($conn, "SELECT * FROM film");?>
                 <div class="col-md-12">
                     <div class="form-group">
-                    <label for="id_genre">ID Genre</label>
-                    <select class="form-control select2" style="width: 100%;" name="id_genre">
-                      <?php
-                        $data_genre = mysqli_query($conn, "SELECT * FROM genre") or die (mysqli_error($conn));
-                        while($genre = mysqli_fetch_array($data_genre)) {
-                          if ($genre['id_genre']==$genre['id_genre']){
-                            $selected= "selected";
-                          } else {
-                            $selected='';
-                          }
-                          echo "<option value=$genre[id_genre] $selected > $genre[nama_genre]</option>";
-                        } 
-                      ?>
-                    </select>
+                      <label for="id_genre">Genre</label>
+                      <select class="form-control select2" style="width: 100%;" name="id_genre">
+                        <?php
+                          echo "<option value=$data[id_genre]>$data[nama_genre]</option>";
+                          $data_genre = mysqli_query($conn, "SELECT * FROM genre") or die (mysqli_error($conn));
+                          while($genre = mysqli_fetch_assoc($data_genre)) {
+                            echo "<option value=$genre[id_genre] > $genre[nama_genre]</option>";
+                          } 
+                        ?>
+                      </select>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-1">
                         <a href="index.php" type="button" class="btn btn-secondary mt-2">Batal</a>
-                        <button type="submit" class="btn btn-primary mt-2">Tambah</button>
+                        <button type="submit" class="btn btn-primary mt-2">Ubah</button>
                     </div>
                 </div>
             </div>

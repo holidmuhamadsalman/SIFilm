@@ -30,7 +30,7 @@
 
 
   <footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://adminlte.io">SIFilm</a>.</strong>
+    <strong>Copyright &copy; 2023 <a href="http://localhost/SI_Film/">SIFilm</a>.</strong>
     All rights reserved.
   </footer>
 

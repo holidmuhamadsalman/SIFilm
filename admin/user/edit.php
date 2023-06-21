@@ -1,10 +1,11 @@
 <?php
   include "../../config.php";
-  $query = mysqli_query($conn, "SELECT * FROM login");
-  if (isset($_GET['id_user'])) {
-    $id_user = ($_GET["id_user"]);
+  $query = mysqli_query($conn, "SELECT * FROM login WHERE username='$_GET[username]'");
+  $row = mysqli_fetch_assoc($query);
+  if (isset($_GET['username'])) {
+    $username = ($_GET["username"]);
 
-    $query = "SELECT * FROM login WHERE id_user='$id_user'";
+    $query = "SELECT * FROM login WHERE username='$username'";
     $result = mysqli_query($conn, $query);
     if(!$result){
       die ("Query Error: ".mysqli_errno($conn)." - ".mysqli_error($conn));
@@ -14,7 +15,7 @@
       echo "<script>alert('Data tidak ditemukan pada database');window.location='index.php';</script>";
     }
   } else {
-      echo "<script>alert('Masukkan data id_user.');window.location='index.php';</script>";
+      echo "<script>alert('Masukkan data username.');window.location='index.php';</script>";
   }
 ?>
 <!DOCTYPE html>
@@ -58,12 +59,6 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
     </ul>
 
     <!-- Right navbar links -->
@@ -105,7 +100,7 @@
 
   <!-- Main Sidebar Container -->
   <?php include '../../include/sidebar.php'?>
-  
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -113,12 +108,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Tambah Data User</h1>
+            <h1 class="m-0">Edit Data User</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Data User</li>
+            <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
+              <li class="breadcrumb-item"><a href="../index.php">Data User</a></li>
+              <li class="breadcrumb-item active">Edit Data User</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -130,7 +126,8 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-        <form action="proses_tambah.php" method="POST" enctype="multipart/form-data">
+        <form action="proses_edit.php" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="username" value="<?=$row['username']?>">
           <div class="col-12">
             <div class="card">
               <!-- <div class="card-header">
@@ -141,42 +138,67 @@
                 <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="nama" class="col-form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama" value="<?= $data['nama']; ?>" required>
+                        <label for="username" class="col-form-label">Username</label>
+                        <input type="text" class="form-control" name="username" value="<?= $row['username']; ?>" required>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="username" class="col-form-label">Username</label>
-                        <input type="text" class="form-control" name="username" value="<?= $data['username']; ?>" required>
+                        <label for="nama" class="col-form-label">Nama</label>
+                        <input type="text" class="form-control" name="nama" value="<?= $row['nama']; ?>" required>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="email" class="col-form-label">E-mail</label>
-                        <input type="text" class="form-control" name="email" value="<?= $data['email']; ?>" required>
+                        <input type="text" class="form-control" name="email" value="<?= $row['email']; ?>" required>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="password" class="col-form-label">Password</label>
-                        <input type="text" class="form-control" name="password" value="<?= $data['password']; ?>" required>
+                        <input type="password" class="form-control" id="password" name="password" value="<?= $row['password']; ?>" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Konfirmasi Password</label>
+                        <input type="password" class="form-control" id="password2" name="password2" value="<?= $row['password']; ?>" required>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                     <label for="role">Role</label>
                     <select class="form-control select2" style="width: 100%;" name="role">
-                      <option value="<?= $data['role']?>"><?= $data['role']?></option>
+                      <option value="<?= $row['role']?>"><?= $row['role']?></option>
                       <option value="admin">admin</option>
                       <option value="user">user</option>
                     </select>
                     </div>
                 </div>
                 <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="foto_user" class="col-form-label">Foto</label>
+                      <?php if($row['foto_user'] == NULL && $row['role'] == 'admin'){
+                        echo "<p><img src=../../include/img-user/avatar5.png style=height:100px; float:center; margin-bottom: 5px;></p>";
+                      } elseif ($row['foto_user'] == NULL && $row['role'] == 'user'){
+                        echo "<p><img src=../../include/img-user/user.png style=height:100px; float:center; margin-bottom: 5px;></p>";
+                      } else {
+                        echo "<p><img src=../../include/img-user/$row[foto_user] style=height:100px; float:center; margin-bottom: 5px;></p>";
+                      } ?>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="foto_user" name="foto_user" accept="image/*">
+                            <label class="custom-file-label" for="foto_user">Choose file</label>
+                          </div>
+                        </div>
+                        <i style="float: left;font-size: 11px;color: yellow">*Abaikan jika tidak mengubah foto</i>
+                    </div>
+                </div>
+                <div class="col-md-12">
                     <div class="mb-1">
                         <a href="index.php" type="button" class="btn btn-secondary mt-2">Batal</a>
-                        <button type="submit" class="btn btn-primary mt-2">Tambah</button>
+                        <button type="submit" class="btn btn-primary mt-2">Ubah</button>
                     </div>
                 </div>
             </div>
@@ -232,5 +254,12 @@
 <script src="../../app/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../app/dist/js/adminlte.js"></script>
+<!-- foto -->
+<script>
+  $(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
+</script>
 </body>
 </html>

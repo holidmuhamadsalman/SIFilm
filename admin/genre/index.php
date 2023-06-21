@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../app/plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../app/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../app/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../app/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bootstrap 4 -->
@@ -70,11 +74,11 @@
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
         </a>
-      </li>
+      </li> -->
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -93,7 +97,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
               <li class="breadcrumb-item active">Data Genre</li>
             </ol>
           </div><!-- /.col -->
@@ -113,40 +117,40 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="genreTable" class="table table-bordered table-striped">
                 <thead>
-                  <tr>
-                    <th>No</th>
+                  <tr class="text-center">
+                    <th width="20px">No</th>
                     <th>Nama Genre</th>
                     <th>Aksi</th>
                   </tr>
-                  </thead>
+                </thead>
                   <tbody>
-                    <?php 
+                    <?php
                       $genre = mysqli_query($conn,"SELECT * FROM genre");
                       $no = 1;
                       while ($data = mysqli_fetch_array($genre)):
                     ?>
                     <tr>
-                      <td><?php echo $no?></td>
-                      <td><?php echo $data['nama_genre']?></td>
-                      <td>
+                      <td class="text-center"><?= $no?></td>
+                      <td><?= $data['nama_genre']?></td>
+                      <td width="300px" class="text-center">
                           <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdit<?= $data['id_genre'] ?>"><i class="far fa-edit"></i></a>
-                          <a href="proses_delete.php?id_genre=<?php echo $data['id_genre']; ?>" onclick="return confirm('Yakin Hapus data?')" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                          <a href="proses_delete.php?id_genre=<?= $data['id_genre']; ?>" onclick="return confirm('Yakin Hapus data?')" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
                       </td>
                       <!-- Start Modal Edit -->
                       <div class="modal fade bg-dark" id="modalEdit<?=$data["id_genre"]?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="modalEditLabel">Edit Data genre</h1>
+                              <h1 class="modal-title fs-5" id="modalEditLabel">Edit Data Genre</h1>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="add_edit.php" method="POST">
                               <input type="hidden" name="id_genre" value="<?=$data['id_genre']?>">
                               <div class="modal-body">
                                 <div class="mb-3">
-                                  <label class="form-label">Nama genre</label>
+                                  <label class="form-label">Nama Genre</label>
                                   <input type="text" class="form-control" name="nama_genre" value="<?= $data["nama_genre"];?>" required>
                                 </div>
                               </div>
@@ -164,11 +168,11 @@
                     <?php endwhile;?>
                   </tbody>
                   <tfoot>
-                  <tr>
-                    <th>No</th>
-                    <th>Nama genre</th>
-                    <th>Aksi</th>
-                  </tr>
+                    <tr class="text-center">
+                      <th>No</th>
+                      <th>Nama Genre</th>
+                      <th>Aksi</th>
+                    </tr>
                   </tfoot>
                 </table>
               </div>
@@ -185,18 +189,18 @@
     <!-- /.content -->
   </div>
 
-  <!-- Start Modal Tambah Data genre-->
+  <!-- Start Modal Tambah Data Genre-->
   <div class="modal fade bg-dark" id="modalTambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="modalTambahLabel">Tambah Data genre</h1>
+          <h1 class="modal-title fs-5" id="modalTambahLabel">Tambah Data Genre</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="add_edit.php" method="POST">
           <div class="modal-body">
             <div class="mb-3">
-              <label class="form-label">Nama genre</label>
+              <label class="form-label">Nama Genre</label>
               <input type="text" class="form-control" id="nama_genre" name="nama_genre" required>
             </div>
           </div>
@@ -212,7 +216,7 @@
 
   <!-- Footer -->
   <?php include '../../include/footer.php'?>
-  
+
 <!-- ./wrapper -->
 
 <!-- jQuery -->
@@ -243,7 +247,29 @@
 <script src="../../app/plugins/summernote/summernote-bs4.min.js"></script>
 <!-- overlayScrollbars -->
 <script src="../../app/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../../app/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../app/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../app/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../app/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../app/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../app/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../app/plugins/jszip/jszip.min.js"></script>
+<script src="../../app/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../app/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../app/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../app/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../app/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../app/dist/js/adminlte.js"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#genreTable").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#genreTable_wrapper .col-md-6:eq(0)');
+  });
+</script>
 </body>
 </html>

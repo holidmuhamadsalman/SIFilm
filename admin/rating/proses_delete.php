@@ -2,9 +2,10 @@
     
     include "../../config.php";
 
-    $id_komentar = $_GET['id_komentar'];
+    $id_rating= $_GET['id_rating'];
 
-    $result = mysqli_query($conn, "DELETE FROM komentar WHERE id_komentar='$id_komentar'");
+    $result = mysqli_query($conn, "DELETE FROM rating WHERE id_rating='$id_rating'");
 
     header("Location:index.php");
 ?>
+

@@ -1,3 +1,8 @@
+<?php
+  include '../config.php';
+  include './../user/proses-login.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,11 +73,11 @@
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
         </a>
-      </li>
+      </li> -->
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -81,7 +86,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="../app/dist/img/SiFilm.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .6">
+      <img src="../app/dist/img/SiFilm.png" alt="SIFilm Logo" class="brand-image img-circle elevation-3" style="opacity: .6">
       <br>
     </a>
 
@@ -89,11 +94,19 @@
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <?php
+          $sql = mysqli_query($conn,"SELECT * FROM login") or die(mysqli_error($con));
+          $data = mysqli_fetch_array($sql);
+        ?>
         <div class="image">
-          <img src="../app/dist/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+          <?php if(($data['foto_user']) == NULL){?>
+            <?php echo "<img src=../include/img-user/avatar5.png class=img-circle elevation-2 alt=User Image>";
+          } else {
+           echo "<img src=../include/img-user/$data[foto_user] class=img-circle elevation-2 alt=User Image>";
+          } ?>
         </div>
         <div class="info">
-          <a href="#" class="d-block">Admin</a>
+          <a class="d-block"><?=$data['nama']?></a>
         </div>
       </div>
 
@@ -115,7 +128,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="index.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -147,8 +160,20 @@
                 </a>
           </li>
           <li class="nav-item">
+                <a href="peran/index.php" class="nav-link">
+                  <i class="fas fa-users nav-icon"></i>
+                  <p>Data Peran</p>
+                </a>
+          </li>
+          <li class="nav-item">
+                <a href="produksi/index.php" class="nav-link">
+                  <i class="fas fa-video nav-icon"></i>
+                  <p>Data Produksi</p>
+                </a>
+          </li>
+          <li class="nav-item">
                 <a href="genre/index.php" class="nav-link">
-                  <i class="fas fa-user nav-icon"></i>
+                  <i class="fas fa-theater-masks nav-icon"></i>
                   <p>Data Genre</p>
                 </a>
           </li>
@@ -160,14 +185,14 @@
           </li>
           <li class="nav-item">
                 <a href="aktor/index.php" class="nav-link">
-                <i class="fas fa-comments nav-icon"></i>
-                  <p>Data Komentar</p>
+                  <i class="fas fa-splotch nav-icon"></i>
+                  <p>Data Rating</p>
                 </a>
           </li>
           <li class="nav-item">
-                <a href="aktor/index.php" class="nav-link">
-                  <i class="fas fa-splotch nav-icon"></i>
-                  <p>Data Rating</p>
+                <a href="../logout.php" class="nav-link bg-black">
+                  <i class="fas fa-sign-out-alt nav-icon"></i>
+                  <p>Log Out</p>
                 </a>
           </li>
         </ul>
@@ -206,8 +231,14 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>5</h3>
-
+                <?php
+                  $film = mysqli_query($conn, "SELECT * FROM film");
+                  if($tot_film = mysqli_num_rows($film)){
+                    echo '<h3>'.$tot_film.'</h3>';
+                  } else {
+                    echo '<h3> 0 </h3>';
+                  }
+                ?>
                 <p>Data Film</p>
               </div>
               <div class="icon">
@@ -221,8 +252,14 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53</h3>
-
+                <?php
+                  $aktor = mysqli_query($conn, "SELECT * FROM aktor");
+                  if($tot_aktor = mysqli_num_rows($aktor)){
+                    echo '<h3>'.$tot_aktor.'</h3>';
+                  } else {
+                    echo '<h3> 0 </h3>';
+                  }
+                ?>
                 <p>Data Aktor</p>
               </div>
               <div class="icon">
@@ -236,7 +273,14 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>5</h3>
+                <?php
+                  $user = mysqli_query($conn, "SELECT * FROM login");
+                  if($tot_user = mysqli_num_rows($user)){
+                    echo '<h3>'.$tot_user.'</h3>';
+                  } else {
+                    echo '<h3> 0 </h3>';
+                  }
+                ?>
                 <p>Data User</p>
               </div>
               <div class="icon">
@@ -250,16 +294,24 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <?php
+                  $sutradara = mysqli_query($conn, "SELECT * FROM sutradara");
+                  if($tot_sutradara = mysqli_num_rows($sutradara)){
+                    echo '<h3>'.$tot_sutradara.'</h3>';
+                  } else {
+                    echo '<h3> 0 </h3>';
+                  }
+                ?>
                 <p>Data Sutradara</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="ion ion-person"></i>
               </div>
               <a href="sutradara/index.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
+          <?php //include './detail_film/index.php';?>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -268,7 +320,7 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://adminlte.io">SIFilm</a>.</strong>
+    <strong>Copyright &copy; 2023 <a href="http://localhost/SI_Film/">SIFilm</a>.</strong>
     All rights reserved.
   </footer>
 

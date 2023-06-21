@@ -27,30 +27,24 @@
                 </div>
                 <div class="divider"></div>
                 <div class="quicklink-wrapper">
-                    <ul class="quicklink-list">
-                        <li><a href="#faq" class="quicklink-link">Faq</a></li>
-                        <li><a href="#" class="quicklink-link">Help center</a></li>
-                        <li><a href="#" class="quicklink-link">Terms of use</a></li>
-                        <li><a href="#" class="quicklink-link">Privacy</a></li>
-                    </ul>
                     <ul class="social-list">
                         <li>
-                            <a href="#" class="social-link">
+                            <a href="https://www.facebook.com/" class="social-link">
                                 <ion-icon name="logo-facebook"></ion-icon>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="social-link">
+                            <a href="https://www.twitter.com/" class="social-link">
                                 <ion-icon name="logo-twitter"></ion-icon>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="social-link">
+                            <a href="https://www.pinterest.com/" class="social-link">
                                 <ion-icon name="logo-pinterest"></ion-icon>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="social-link">
+                            <a href="https://www.linkedin.com/" class="social-link">
                                 <ion-icon name="logo-linkedin"></ion-icon>
                             </a>
                         </li>
@@ -61,7 +55,7 @@
         <div class="footer-bottom">
             <div class="container">
                 <p class="copyright">
-                &copy; 2023 <a href="#">SIFilm</a>. All Rights Reserved
+                &copy; 2023 <a href="index.php">SIFilm</a>. All Rights Reserved
                 </p>
             </div>
         </div>
@@ -73,7 +67,7 @@
     </a>
 
     <!-- custom js link -->
-    <script src="./ user/assets/js/script.js"></script>
+    <script src="./user/assets/js/script.js"></script>
 
     <!-- ionicon link -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

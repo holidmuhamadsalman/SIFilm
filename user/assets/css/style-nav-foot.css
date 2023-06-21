@@ -1187,7 +1187,7 @@ body.active {
             position: relative;
             display: flex;
             align-items: center;
-            gap: 50px;
+            gap: 90px;
       }
       .movie-detail-banner,
       .details-actions {
@@ -1254,7 +1254,7 @@ body.active {
             padding-bottom: var(--section-padding);
       }
       .movie-detail-content {
-            max-width: 620px;
+            max-width: 900px;
       }
       .detail-title {
             --fs-1: 60px;

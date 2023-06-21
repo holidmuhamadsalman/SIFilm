@@ -25807,7 +25807,7 @@ body.text-sm .input-group-text {
 .dark-mode textarea:-webkit-autofill,
 .dark-mode textarea:-webkit-autofill:focus,
 .dark-mode textarea:-webkit-autofill:hover {
-  -webkit-text-fill-color: #fff;
+  -webkit-text-fill-color: #000000;
 }
 .dark-mode .custom-range::-webkit-slider-runnable-track {
   background-color: #454d55;
