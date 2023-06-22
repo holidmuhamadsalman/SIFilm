@@ -61,13 +61,13 @@
                         <label for="passwordLama" class="col-form-label text-white ml-1 font-weight-bold font-lg">
                           <h6>Password Lama:</h6>
                         </label>
-                        <input type="text" class="form-control py-4" name="passwordLama"required>
+                        <input type="password" class="form-control py-4" name="passwordLama"required>
                       </div>
                       <div class="col-md-6">
                         <label for="newpassword" class="col-form-label text-white ml-1 font-weight-bold font-lg">
                           <h6>Password Baru:</h6>
                         </label>
-                        <input type="text" class="form-control py-4" name="newpassword" required>
+                        <input type="password" class="form-control py-4" name="newpassword" required>
                       </div>
                     </div>
                       <button type="submit" class="btn">Save Change</button>

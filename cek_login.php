@@ -19,6 +19,7 @@ $cek = mysqli_num_rows($login);
 if($cek > 0){
 
 	$data = mysqli_fetch_assoc($login);
+
 	// cek jika user login sebagai admin
 	if($data['role']=="admin"){
 
@@ -36,16 +37,15 @@ if($cek > 0){
 		// alihkan ke halaman dashboard user
 		header("location:user/index.php");
 
-	}elseif($data['role']=="user"){
-		// buat session login dan username
-		$_SESSION['username'] != $username;
-		$_SESSION['role'] = "user";
-		// alihkan ke halaman login
-		header("location:index.php");
-	}
+	}else{
 
+		// alihkan ke halaman login kembali
+		header("location:index.php?pesan=gagal");
+	}
 	
 }else{
 	header("location:index.php?pesan=gagal");
 }
+
+
 ?>

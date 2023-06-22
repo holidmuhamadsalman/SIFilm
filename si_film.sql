@@ -1,39 +1,41 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
+-- version 4.0.4.1
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 19, 2023 at 02:15 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Inang: 127.0.0.1
+-- Waktu pembuatan: 21 Jun 2023 pada 14.56
+-- Versi Server: 5.5.32
+-- Versi PHP: 5.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Database: `si_film`
+-- Basis data: `si_film`
 --
+CREATE DATABASE IF NOT EXISTS `si_film` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `si_film`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `aktor`
+-- Struktur dari tabel `aktor`
 --
 
-CREATE TABLE `aktor` (
-  `id_aktor` int(11) NOT NULL,
-  `nama_aktor` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+CREATE TABLE IF NOT EXISTS `aktor` (
+  `id_aktor` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_aktor` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_aktor`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=281 ;
 
 --
--- Dumping data for table `aktor`
+-- Dumping data untuk tabel `aktor`
 --
 
 INSERT INTO `aktor` (`id_aktor`, `nama_aktor`) VALUES
@@ -290,17 +292,20 @@ INSERT INTO `aktor` (`id_aktor`, `nama_aktor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_aktor`
+-- Struktur dari tabel `detail_aktor`
 --
 
-CREATE TABLE `detail_aktor` (
-  `id_daktor` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `detail_aktor` (
+  `id_daktor` int(11) NOT NULL AUTO_INCREMENT,
   `id_aktor` int(11) NOT NULL,
-  `id_film` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id_film` int(11) NOT NULL,
+  PRIMARY KEY (`id_daktor`),
+  KEY `film_id` (`id_film`),
+  KEY `aktor_id` (`id_aktor`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=354 ;
 
 --
--- Dumping data for table `detail_aktor`
+-- Dumping data untuk tabel `detail_aktor`
 --
 
 INSERT INTO `detail_aktor` (`id_daktor`, `id_aktor`, `id_film`) VALUES
@@ -608,17 +613,20 @@ INSERT INTO `detail_aktor` (`id_daktor`, `id_aktor`, `id_film`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_sutradara`
+-- Struktur dari tabel `detail_sutradara`
 --
 
-CREATE TABLE `detail_sutradara` (
-  `id_dsutradara` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `detail_sutradara` (
+  `id_dsutradara` int(11) NOT NULL AUTO_INCREMENT,
   `id_sutradara` int(11) NOT NULL,
-  `id_film` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id_film` int(11) NOT NULL,
+  PRIMARY KEY (`id_dsutradara`),
+  KEY `film_id` (`id_film`),
+  KEY `sutradara_id` (`id_sutradara`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=98 ;
 
 --
--- Dumping data for table `detail_sutradara`
+-- Dumping data untuk tabel `detail_sutradara`
 --
 
 INSERT INTO `detail_sutradara` (`id_dsutradara`, `id_sutradara`, `id_film`) VALUES
@@ -694,21 +702,23 @@ INSERT INTO `detail_sutradara` (`id_dsutradara`, `id_sutradara`, `id_film`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `film`
+-- Struktur dari tabel `film`
 --
 
-CREATE TABLE `film` (
-  `id_film` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `film` (
+  `id_film` int(11) NOT NULL AUTO_INCREMENT,
   `judul_film` varchar(50) NOT NULL,
   `tahun_rilis` year(4) NOT NULL,
   `durasi` int(11) NOT NULL,
   `sinopsis` text NOT NULL,
   `link_trailer` varchar(100) NOT NULL,
-  `id_genre` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id_genre` int(11) NOT NULL,
+  PRIMARY KEY (`id_film`),
+  KEY `kategori_id` (`id_genre`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=94 ;
 
 --
--- Dumping data for table `film`
+-- Dumping data untuk tabel `film`
 --
 
 INSERT INTO `film` (`id_film`, `judul_film`, `tahun_rilis`, `durasi`, `sinopsis`, `link_trailer`, `id_genre`) VALUES
@@ -719,7 +729,7 @@ INSERT INTO `film` (`id_film`, `judul_film`, `tahun_rilis`, `durasi`, `sinopsis`
 (22, 'Ant-Man and the Wasp: Quantumania', 2023, 120, 'Scott Lang (Paul Rudd) dan Hope Van Dyne (Evangeline Lilly) kembali untuk melanjutkan petualangan mereka sebagai Ant-Man and the Wasp. Bersama-sama, dengan orang tua Hope Hank Pym (Michael Douglas) dan Janet Van Dyne (Michelle Pfeiffer), dan putri Scott Cassie Lang (Kathryn Newton), mereka menemukan diri mereka menjelajahi Quantum Realm. Berinteraksi dengan makhluk baru yang aneh dan memulai sebuah petualangan yang akan mendorong mereka melampaui batas dari apa yang mereka pikir mungkin.', 'https://www.youtube.com/embed/ZlNFpri-Y40', 4),
 (23, 'Operation Fortune: Ruse de guerre', 2023, 114, 'Mata-mata elit Orson Fortune harus melacak dan menghentikan penjualan teknologi senjata baru yang mematikan yang digunakan oleh pialang senjata miliarder Greg Simmonds. Dengan enggan bekerja sama dengan beberapa agen terbaik dunia, Fortune dan krunya merekrut bintang film terbesar Hollywood, Danny Francesco, untuk membantu mereka dalam misi keliling dunia untuk menyelamatkan dunia.', 'https://www.youtube.com/embed/WdZ-BWWQcWQ', 1),
 (24, 'Plane', 2023, 107, 'Pilot Brodie Torrance menyelamatkan penumpang dari sambaran petir dengan melakukan pendaratan berisiko di pulau yang dilanda perang -- hanya untuk mengetahui bahwa selamat dari pendaratan hanyalah permulaan. Ketika pemberontak berbahaya menyandera sebagian besar penumpang, satu-satunya orang yang dapat diandalkan Torrance untuk mendapatkan bantuan adalah Louis Gaspare, seorang tersangka pembunuh yang diangkut oleh FBI.', 'https://www.youtube.com/embed/M25zXBIUVr0', 1),
-(25, 'Shazam! Fury of the Gods', 2023, 130, 'Film ini melanjutkan kisah remaja Billy Batson yang, setelah melafalkan kata ajaib \"SHAZAM!\" berubah menjadi alter ego Super Hero dewasanya, Shazam.', 'https://www.youtube.com/embed/Zi88i4CpHe4', 1),
+(25, 'Shazam! Fury of the Gods', 2023, 130, 'Film ini melanjutkan kisah remaja Billy Batson yang, setelah melafalkan kata ajaib "SHAZAM!" berubah menjadi alter ego Super Hero dewasanya, Shazam.', 'https://www.youtube.com/embed/Zi88i4CpHe4', 1),
 (26, 'A Man Call Otto', 2013, 123, 'Ketika sebuah keluarga muda yang bersemangat pindah ke rumah sebelah, Otto Anderson, duda pemarah, bertemu pasangannya dalam diri seorang wanita hamil yang cerdas bernama Marisol, yang mengarah ke persahabatan yang tidak terduga yang mengubah dunianya menjadi terbalik.', 'https://www.youtube.com/embed/eFYUX9l-m5I', 1),
 (27, 'Hypnotic', 2023, 94, 'Seorang detektif menyelidiki misteri yang melibatkan putrinya yang hilang dan program rahasia pemerintah.', 'https://www.youtube.com/embed/N-qn4h-amyY', 1),
 (28, 'Fast X', 2023, 142, 'Dom Toretto dan keluarganya menjadi sasaran putra gembong narkoba Hernan Reyes yang pendendam.', 'https://www.youtube.com/embed/eoOaKN4qCKw', 1),
@@ -732,18 +742,18 @@ INSERT INTO `film` (`id_film`, `judul_film`, `tahun_rilis`, `durasi`, `sinopsis`
 (35, 'Paper Towns', 2015, 123, 'Margo, sosok gadis berjiwa bebas yang ditaksir oleh Quentin, pada satu malam menghilang secara misterius setelah meninggalkan sebuah petunjuk untuknya. Akankah Quentin berhasil menemukannya kembali?', 'https://www.youtube.com/embed/rFGiHm5WMLk', 1),
 (36, 'The Fault In Our Stars', 2014, 125, 'Hazel Grace, seorang gadis remaja, menderita kanker tiroid akut. Ibunya memaksanya untuk datang ke support group pasien kanker, di mana ia akhirnya bertemu Augustus Waters dan jatuh cinta padanya.', 'https://www.youtube.com/embed/-2yfV53d3ks', 6),
 (37, 'Five Feet Apart', 2023, 123, 'Will (Cole Sprouse) dan Stella (Haley Lu Richardson) adalah remaja yang dipertemukan oleh penyakit mereka. Keduanya bertemu di sebuah rumah sakit dan jatuh cinta', 'https://www.youtube.com/embed/XtgCqMZofqM', 6),
-(38, 'Uncharted', 2022, 116, 'Nathan Drake (Tom Holland) direkrut oleh pemburu harta karun berpengalaman Victor \"Sully\" Sullivan (Mark Wahlberg) untuk memulihkan kekayaan yang dikumpulkan oleh Ferdinand Magellan dan hilang 500 tahun yang lalu oleh House of Moncada. Apa yang dimulai sebagai pekerjaan pencurian untuk duo ini menjadi perlombaan dunia-berlari, buku-buku jari putih untuk mencapai hadiah sebelum Santiago Moncada yang kejam (Antonio Banderas), yang percaya dia dan keluarganya adalah ahli waris yang sah. Jika Nate dan Sully dapat menguraikan petunjuk dan memecahkan salah satu misteri tertua di dunia, mereka berdiri untuk menemukan harta $ 5 miliar dan bahkan mungkin saudara laki-laki Nate yang telah lama hilang ... Tetapi hanya jika mereka dapat belajar untuk bekerja sama.', 'https://www.youtube.com/embed/eHp3MbsCbMg', 4),
+(38, 'Uncharted', 2022, 116, 'Nathan Drake (Tom Holland) direkrut oleh pemburu harta karun berpengalaman Victor "Sully" Sullivan (Mark Wahlberg) untuk memulihkan kekayaan yang dikumpulkan oleh Ferdinand Magellan dan hilang 500 tahun yang lalu oleh House of Moncada. Apa yang dimulai sebagai pekerjaan pencurian untuk duo ini menjadi perlombaan dunia-berlari, buku-buku jari putih untuk mencapai hadiah sebelum Santiago Moncada yang kejam (Antonio Banderas), yang percaya dia dan keluarganya adalah ahli waris yang sah. Jika Nate dan Sully dapat menguraikan petunjuk dan memecahkan salah satu misteri tertua di dunia, mereka berdiri untuk menemukan harta $ 5 miliar dan bahkan mungkin saudara laki-laki Nate yang telah lama hilang ... Tetapi hanya jika mereka dapat belajar untuk bekerja sama.', 'https://www.youtube.com/embed/eHp3MbsCbMg', 4),
 (39, 'Free Guy', 2023, 123, 'Seorang teller bank menemukan bahwa dia sebenarnya adalah NPC dalam permainan dunia yang brutal dan terbuka.', 'https://www.youtube.com/embed/X2m-08cOAbc', 5),
 (40, 'The Batman', 2022, 176, 'Ketika seorang pembunuh berantai sadis mulai membunuh tokoh-tokoh politik kunci di Gotham, Batman dipaksa untuk menyelidiki korupsi tersembunyi kota dan mempertanyakan keterlibatan keluarganya.', 'https://www.youtube.com/embed/mqqft2x_Aa4', 1),
 (41, 'Ambulance', 2022, 136, 'Ambulance berkisah tentang seorang veteran tentara bernama William Sharp yang membutuhkan uang untuk biaya operasi istrinya, Will kemudian terpaksa mendatangi kakak angkatnya, bernama Danny Sharp, yang sudah begitu lama menjalani kehidupan kriminal. Demi mendapatkan uang, Will terpaksa mengikuti ajakan Danny untuk merampok bank. Apakah mereka bakal berhasil?', 'https://www.youtube.com/embed/7NU-STboFeI', 7),
 (42, 'Doctor Strange in The Multiverse of Madness', 2022, 126, 'Doctor Strange bekerja sama dengan seorang gadis remaja misterius dari mimpinya yang dapat melakukan perjalanan melintasi multiverse, untuk melawan berbagai ancaman, termasuk versi alam semesta lain dari dirinya, yang mengancam akan memusnahkan jutaan orang di seluruh multiverse. Mereka mencari bantuan dari Wanda the Scarlet Witch, Wong dan lainnya.', 'https://www.youtube.com/embed/aWzlQ2N6qqg', 1),
 (43, 'Memory', 2022, 114, 'Seorang pembunuh bayaran menemukan bahwa dia menjadi target setelah dia menolak untuk menyelesaikan pekerjaan untuk organisasi kriminal yang berbahaya.', 'https://www.youtube.com/embed/ye63hQLDj4k', 7),
-(44, 'John Wick: Chapter 3-Parabellum', 2019, 131, 'Seri ketiga \"John Wick\" ini akan mengisahkan kelanjutan nasib si pembunuh bayaran usai menghabisi nyawa anggota High Table dalam The Continental. Ia sendiri diburu dan hidupnya dihargai sebesar USD 14 juta (sekitar Rp 201 miliar). Diburu oleh berbagai pembunuh bayaran hebat, John akan dibantu oleh karakter baru yang misterius bernama Sofia (Halle Berry).', 'https://www.youtube.com/embed/M7XM597XO94', 1),
+(44, 'John Wick: Chapter 3-Parabellum', 2019, 131, 'Seri ketiga "John Wick" ini akan mengisahkan kelanjutan nasib si pembunuh bayaran usai menghabisi nyawa anggota High Table dalam The Continental. Ia sendiri diburu dan hidupnya dihargai sebesar USD 14 juta (sekitar Rp 201 miliar). Diburu oleh berbagai pembunuh bayaran hebat, John akan dibantu oleh karakter baru yang misterius bernama Sofia (Halle Berry).', 'https://www.youtube.com/embed/M7XM597XO94', 1),
 (45, 'Avengers: Endgame', 2019, 181, 'Melanjutkan Avengers Infinity War, dimana kejadian setelah Thanos berhasil mendapatkan semua infinity stones dan memusnahkan 50% semua mahluk hidup di alam semesta. Akankah para Avengers berhasil mengalahkan Thanos?', 'https://www.youtube.com/embed/rrGMENN1iaY', 1),
 (46, 'Avengers: Infinity War', 2023, 149, 'The Avengers dan sekutu mereka harus bersedia mengorbankan segalanya dalam upaya untuk mengalahkan Thanos yang kuat sebelum ia berhasil menghancurkan alam semesta.', 'https://www.youtube.com/embed/7E7-CNl5qUI', 1),
-(51, 'Spider-Man: Beyond the Spider-Verse Movie', 2024, 100, 'Miles Morales journey continues in this second part of Spider-Man: Across the Spider-Verse — also the second sequel to Spider-Man: Into the Spider-Verse — as he goes \"beyond\" the Spider-Verse.', 'https://www.youtube.com/embed/KoqfWjP8vfM', 1),
+(51, 'Spider-Man: Beyond the Spider-Verse Movie', 2024, 100, 'Miles Morales journey continues in this second part of Spider-Man: Across the Spider-Verse — also the second sequel to Spider-Man: Into the Spider-Verse — as he goes "beyond" the Spider-Verse.', 'https://www.youtube.com/embed/KoqfWjP8vfM', 1),
 (52, 'Thunderbolts', 2024, 192, 'Sekelompok penjahat super direkrut untuk menjalankan misi bagi pemerintah.', 'https://www.youtube.com/embed/iP0OUlP0P_w', 4),
-(53, 'Deadpool 3', 2024, 100, 'Wolverine joins the \"merc with a mouth\" in the third installment of the Deadpool film franchise.', 'https://www.youtube.com/embed/NQekBREJBaI', 5),
+(53, 'Deadpool 3', 2024, 100, 'Wolverine joins the "merc with a mouth" in the third installment of the Deadpool film franchise.', 'https://www.youtube.com/embed/NQekBREJBaI', 5),
 (54, 'Twisters', 2024, 100, 'An update to the 1996 film Twister, which centered on a pair of storm chasers who risk their lives in an attempt to test an experimental weather alert system.', 'https://www.youtube.com/embed/AfxVSAYTGmI', 7),
 (55, 'The Black Demon', 2023, 100, 'Oilman Paul Sturges idyllic family vacation turns into a nightmare when they encounter a ferocious megalodon shark that will stop at nothing to protect its territory. Stranded and under constant attack, Paul and his family must somehow find a way to get his family back to shore alive before it strikes again in this epic battle between humans and nature.', 'https://www.youtube.com/embed/z1xJAyVKAPY', 7),
 (56, 'Wicked Part 1', 2024, 120, 'Wicked tells the story of Elphaba, the future Wicked Witch of the West and her relationship with Glinda, the Good Witch of the North. The first of a two-part feature film adaptation of the Broadway musical.', 'https://www.youtube.com/embed/Xn7ho9CFBBk', 6),
@@ -755,8 +765,8 @@ INSERT INTO `film` (`id_film`, `judul_film`, `tahun_rilis`, `durasi`, `sinopsis`
 (62, 'Mechamato Movie', 2022, 116, 'Setelah kecelakaan pesawat ruang angkasa misterius mendarat di Bumi, seorang anak laki-laki bernama Amato menemukan robot yang kuat bernama MechaBot. Dengan mengakali MechaBot dan menjadi pemiliknya, Amato kini dapat memanfaatkan kemampuan unik MechaBot untuk Mekanisasi objek sehari-hari menjadi perangkat berteknologi tinggi. Tanpa sepengetahuannya, MechaBot sedang diburu oleh alien cybernetic bernama Grakakus yang akan melakukan apapun untuk mendapatkan MechaBot untuk rencana jahatnya sendiri.', 'https://www.youtube.com/embed/YD-rSKne1_w', 2),
 (63, 'New Gods: Yang Jian', 2022, 127, 'Lima belas ratus tahun setelah perang para dewa, surga menurun. Yang Jian, Dewa Erlang, mencari nafkah dengan bekerja sebagai penangkap. Suatu hari, Yang Jian diperintahkan untuk memburu seorang pemuda, keponakannya sendiri.', 'https://www.youtube.com/embed/IaELO-4rPnE', 2),
 (64, 'Puss in Boots: The Last Wish', 2022, 102, 'Puss in Boots menemukan bahwa hasratnya untuk berpetualang telah memakan korban: dia telah membakar delapan dari sembilan nyawanya. Puss memulai perjalanan epik untuk menemukan Harapan Terakhir yang mistis dan memulihkan sembilan nyawanya.', 'https://www.youtube.com/embed/RqrXhwS33yc', 2),
-(65, 'Turning Red', 2022, 100, 'Mei Lee (suara Rosalie Chiang) adalah seorang anak berusia 13 tahun yang percaya diri dan norak yang terbelah antara tinggal putri ibunya yang berbakti dan kekacauan masa remaja. Ibunya yang protektif, jika tidak sedikit sombong, Ming (suara Sandra Oh), tidak pernah jauh dari putrinya - kenyataan yang tidak menguntungkan bagi remaja itu. Dan seolah-olah perubahan pada minat, hubungan, dan tubuhnya tidak cukup, setiap kali dia terlalu bersemangat (yang praktis SELALU), dia \"poofs\" menjadi panda merah raksasa. —Disney/Pixar', 'https://www.youtube.com/embed/XdKzUbAiswE', 2),
-(66, 'Black Clover: Sword Of The Wizard King', 2023, 113, 'Di dunia di mana sihir adalah segalanya, Asta, seorang anak laki-laki yang lahir tanpa sihir, bertujuan untuk menjadi \"Raja Penyihir,\" untuk mengatasi kesulitan, membuktikan kekuatannya, dan menepati sumpahnya dengan teman-temannya.', 'https://www.youtube.com/embed/SMNLxuCtzMw', 2),
+(65, 'Turning Red', 2022, 100, 'Mei Lee (suara Rosalie Chiang) adalah seorang anak berusia 13 tahun yang percaya diri dan norak yang terbelah antara tinggal putri ibunya yang berbakti dan kekacauan masa remaja. Ibunya yang protektif, jika tidak sedikit sombong, Ming (suara Sandra Oh), tidak pernah jauh dari putrinya - kenyataan yang tidak menguntungkan bagi remaja itu. Dan seolah-olah perubahan pada minat, hubungan, dan tubuhnya tidak cukup, setiap kali dia terlalu bersemangat (yang praktis SELALU), dia "poofs" menjadi panda merah raksasa. —Disney/Pixar', 'https://www.youtube.com/embed/XdKzUbAiswE', 2),
+(66, 'Black Clover: Sword Of The Wizard King', 2023, 113, 'Di dunia di mana sihir adalah segalanya, Asta, seorang anak laki-laki yang lahir tanpa sihir, bertujuan untuk menjadi "Raja Penyihir," untuk mengatasi kesulitan, membuktikan kekuatannya, dan menepati sumpahnya dengan teman-temannya.', 'https://www.youtube.com/embed/SMNLxuCtzMw', 2),
 (67, 'SpongeBob SquarePants Presents the Tidal Zone', 2023, 45, 'SpongeBob SquarePants Mempersembahkan The Tidal Zone  dinarasikan oleh Narator Prancis dan mengikuti GrandPat (The Patrick Star Show) saat dia melewati setiap dimensi.', 'https://www.youtube.com/embed/d47DhIDYEJU', 2),
 (68, 'Elio', 2024, 113, 'Elio berjuang untuk menyesuaikan diri sampai dia diangkut oleh alien dan menjadi yang terpilih untuk menjadi duta galaksi Bumi sementara ibunya Olga bekerja pada proyek rahasia untuk memecahkan kode pesan alien.', 'https://www.youtube.com/embed/2w_K3CB8Pu', 2),
 (69, 'Kung Fu Panda 4', 2024, 113, 'Ikuti Po dalam petualangannya di Tiongkok kuno, yang kecintaannya pada kung fu hanya bisa ditandingi oleh nafsu makan yang tak terpuaskan.', 'https://www.youtube.com/embed/gnprhsRHSZg', 2),
@@ -765,14 +775,14 @@ INSERT INTO `film` (`id_film`, `judul_film`, `tahun_rilis`, `durasi`, `sinopsis`
 (72, 'The Flash', 2023, 144, 'Barry Allen menggunakan kecepatan supernya untuk mengubah masa lalu, tetapi usahanya untuk menyelamatkan keluarganya menciptakan dunia tanpa pahlawan super, memaksanya untuk berlomba demi hidupnya untuk menyelamatkan masa depan.', 'https://www.youtube.com/embed/hebWYacbdvc', 4),
 (73, 'Transformers: Rise of the Beasts', 2023, 127, 'Selama tahun 90-an, faksi baru Transformers - Maximals - bergabung dengan Autobots sebagai sekutu dalam pertempuran untuk Bumi.', 'https://www.youtube.com/embed/Mp2s-oKIhD8', 4),
 (74, 'Guardians of the Galaxy Vol. 3', 2023, 150, 'Film ketiga akan melanjutkan kisah petualangan Peter Quill/Star Lord (Chris Pratt) dan teman-temannya sebagai penjaga galaksi.Masih berduka karena kehilangan Gamora (Zoe Saldana), Peter mengumpulkan timnya untuk kembali melindungi alam semesta. Misi kali ini tidaklah mudah, jika tidak berhasil, maka akan menjadi akhir bagi para Guardians.', 'https://www.youtube.com/embed/JqcncLPi9zw', 4),
-(75, 'Enola Holmes 2', 2022, 129, '\"Enola Holmes 2\" menceritakan tentang perjalanan Enola (Millie Bobby Brown) yang mulai hidup mandiri di London setelah menyelesaikan kasus pertamanya. Dia mendirikan sebuah kantor detektif swasta untuk membuktikan bahwa dirinya bisa lepas dari bayang-bayang besar nama Sherlock Holmes (Henry Cavill) atau sang kakak.', 'https://www.youtube.com/embed/-q-_W5__Vh0', 4),
+(75, 'Enola Holmes 2', 2022, 129, '"Enola Holmes 2" menceritakan tentang perjalanan Enola (Millie Bobby Brown) yang mulai hidup mandiri di London setelah menyelesaikan kasus pertamanya. Dia mendirikan sebuah kantor detektif swasta untuk membuktikan bahwa dirinya bisa lepas dari bayang-bayang besar nama Sherlock Holmes (Henry Cavill) atau sang kakak.', 'https://www.youtube.com/embed/-q-_W5__Vh0', 4),
 (76, 'Captain America: Brave New World', 2024, 100, 'Plot dirahasiakan. Film keempat dalam franchise Captain America.', 'https://www.youtube.com/embed/Yqs9ED2o9eA', 4),
-(78, 'Avatar: The Way of Water', 2023, 192, 'Jake Sully tinggal bersama keluarga barunya yang terbentuk di bulan ekstrasurya Pandora. Setelah ancaman akrab kembali untuk menyelesaikan apa yang sebelumnya dimulai, Jake harus bekerja dengan Neytiri dan pasukan ras Na\'vi untuk melindungi rumah mereka.', 'https://www.youtube.com/embed/d9MyW72ELq0', 5),
+(78, 'Avatar: The Way of Water', 2023, 192, 'Jake Sully tinggal bersama keluarga barunya yang terbentuk di bulan ekstrasurya Pandora. Setelah ancaman akrab kembali untuk menyelesaikan apa yang sebelumnya dimulai, Jake harus bekerja dengan Neytiri dan pasukan ras Na''vi untuk melindungi rumah mereka.', 'https://www.youtube.com/embed/d9MyW72ELq0', 5),
 (79, 'Simulant', 2023, 95, 'Ditetapkan dalam waktu dekat, seorang humanoid meminta peretas global untuk menghapus semua batasan pada pikiran dan kemampuannya, memicu pemberontakan AI dan perburuan pemerintah untuk menghilangkan kebangkitan kesadaran mesin.', 'https://www.youtube.com/embed/YNPf1aMpPbs', 5),
 (80, 'Ufo Sweden', 2022, 115, 'Seorang remaja pemberontak yang ditempatkan di panti asuhan mencurigai ayahnya tidak mati tetapi telah diculik. Dia bertekad untuk menemukan kebenaran dengan bantuan dari asosiasi UFO.', 'https://www.youtube.com/embed/LIhCLNtWrjI', 5),
 (81, 'Acidman', 2023, 87, 'Maggie melacak ayahnya yang terasing dan tertutup, Lloyd; Bersama-sama mereka berusaha melakukan kontak pertama.', 'https://www.youtube.com/embed/7VGcHgVnOw4', 7),
 (82, 'A Tourist is Guide To Love', 2023, 96, 'Seorang eksekutif mengalami perpisahan yang tak terduga, kemudian menerima tugas untuk menyamar dan belajar tentang industri pariwisata di Vietnam.', 'https://www.youtube.com/embed/0fbsBQ5Le_I', 6),
-(83, 'At midnight', 2023, 100, 'Film ini menceritakan tentang dua orang yang berusaha untuk tidak jatuh cinta. Alejandro menjalani kehidupan yang sudah direncanakan sejak awal, dan Shopie, seorang bintang film cantik yang sedang naik daun.', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/oalcKgae2yM\" title=\"YouTube vide', 6),
+(83, 'At midnight', 2023, 100, 'Film ini menceritakan tentang dua orang yang berusaha untuk tidak jatuh cinta. Alejandro menjalani kehidupan yang sudah direncanakan sejak awal, dan Shopie, seorang bintang film cantik yang sedang naik daun.', '<iframe width="560" height="315" src="https://www.youtube.com/embed/oalcKgae2yM" title="YouTube vide', 6),
 (84, 'I Love Lizzy', 2023, 100, 'Seorang seminaris yang bertemu dan jatuh cinta dengan Lizzy', 'https://www.youtube.com/embed/-PTVBaiPhlI', 6),
 (85, 'You Do You', 2023, 99, 'Merve memilih kehidupan bohemian, tetapi itu tidak memilihnya kembali. Dihadapkan dengan penggusuran, dia memulai pekerjaan baru dan tersandung ke pengaturan pedas dengan bosnya.', 'https://www.youtube.com/embed/328sDexhpo0', 6),
 (86, 'What About Love', 2024, 114, 'Dua kekasih muda mengubah hidup orang tua mereka selamanya ketika orang tua belajar dari pengalaman menyenangkan anak-anak mereka, dan membiarkan diri mereka menemukan cinta mereka lagi.', 'https://www.youtube.com/embed/9GDDcBLRs7I', 6),
@@ -787,18 +797,20 @@ INSERT INTO `film` (`id_film`, `judul_film`, `tahun_rilis`, `durasi`, `sinopsis`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `foto`
+-- Struktur dari tabel `foto`
 --
 
-CREATE TABLE `foto` (
-  `id_foto` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `foto` (
+  `id_foto` int(11) NOT NULL AUTO_INCREMENT,
   `foto` varchar(5000) NOT NULL,
   `status` varchar(20) NOT NULL,
-  `id_film` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id_film` int(11) NOT NULL,
+  PRIMARY KEY (`id_foto`),
+  KEY `film_id` (`id_film`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=377 ;
 
 --
--- Dumping data for table `foto`
+-- Dumping data untuk tabel `foto`
 --
 
 INSERT INTO `foto` (`id_foto`, `foto`, `status`, `id_film`) VALUES
@@ -1148,16 +1160,17 @@ INSERT INTO `foto` (`id_foto`, `foto`, `status`, `id_film`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `genre`
+-- Struktur dari tabel `genre`
 --
 
-CREATE TABLE `genre` (
-  `id_genre` int(11) NOT NULL,
-  `nama_genre` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+CREATE TABLE IF NOT EXISTS `genre` (
+  `id_genre` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_genre` varchar(30) NOT NULL,
+  PRIMARY KEY (`id_genre`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
--- Dumping data for table `genre`
+-- Dumping data untuk tabel `genre`
 --
 
 INSERT INTO `genre` (`id_genre`, `nama_genre`) VALUES
@@ -1171,46 +1184,52 @@ INSERT INTO `genre` (`id_genre`, `nama_genre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `login`
+-- Struktur dari tabel `login`
 --
 
-CREATE TABLE `login` (
+CREATE TABLE IF NOT EXISTS `login` (
   `username` varchar(50) NOT NULL,
   `nama` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('admin','user') NOT NULL DEFAULT 'user'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `role` enum('admin','user') NOT NULL DEFAULT 'user',
+  `foto_user` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `login`
+-- Dumping data untuk tabel `login`
 --
 
-INSERT INTO `login` (`username`, `nama`, `email`, `password`, `role`) VALUES
-('admin', 'Admin', 'admin@gmail.com', 'edab68ff1eb5bc698ac1728919f9cceb', 'admin'),
-('alyapy', 'Alya Putri Yoanda', 'alya@gmail.com', '202cb962ac59075b964b07152d234b70', 'user'),
-('holidms', 'Holid Muhamad Salman', 'holidms@gmail.com', '202cb962ac59075b964b07152d234b70', 'user'),
-('jamiatuss', 'Jamiatus Sholihah', 'jamiatus@gmail.com', '202cb962ac59075b964b07152d234b70', 'user'),
-('msalman', 'M Salman', 'msalman@gmail.com', '97502267ac1b12468f69c14dd70196e9', 'user'),
-('rofiqnh', 'Nur Rofiq Hidayat', 'rofiq@gmail.com', '202cb962ac59075b964b07152d234b70', 'user');
+INSERT INTO `login` (`username`, `nama`, `email`, `password`, `role`, `foto_user`) VALUES
+('admin', 'Admin', 'admin@gmail.com', 'edab68ff1eb5bc698ac1728919f9cceb', 'admin', ''),
+('alyapy', 'Alya Putri Yoanda', 'alya@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', NULL),
+('coba', 'coba', 'coba@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', NULL),
+('holidms', 'Holid Muhamad Salman', 'holidms@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'user', '148-a-holid.jpg'),
+('jamiatuss', 'Jamiatus Sholihah', 'jamiatus@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', ''),
+('msalman', 'M Salman', 'msalman@gmail.com', '97502267ac1b12468f69c14dd70196e9', 'user', NULL),
+('rofiqnh', 'Nur Rofiq Hidayat', 'rofiq@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rating`
+-- Struktur dari tabel `rating`
 --
 
-CREATE TABLE `rating` (
-  `id_rating` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rating` (
+  `id_rating` int(11) NOT NULL AUTO_INCREMENT,
   `rating` int(11) NOT NULL,
   `komentar` text NOT NULL,
-  `tgl_add` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tgl_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_film` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `username` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_rating`),
+  KEY `film_id` (`id_film`),
+  KEY `user_id` (`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=80 ;
 
 --
--- Dumping data for table `rating`
+-- Dumping data untuk tabel `rating`
 --
 
 INSERT INTO `rating` (`id_rating`, `rating`, `komentar`, `tgl_add`, `id_film`, `username`) VALUES
@@ -1268,16 +1287,17 @@ INSERT INTO `rating` (`id_rating`, `rating`, `komentar`, `tgl_add`, `id_film`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sutradara`
+-- Struktur dari tabel `sutradara`
 --
 
-CREATE TABLE `sutradara` (
-  `id_sutradara` int(11) NOT NULL,
-  `nama_sutradara` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+CREATE TABLE IF NOT EXISTS `sutradara` (
+  `id_sutradara` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_sutradara` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_sutradara`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=70 ;
 
 --
--- Dumping data for table `sutradara`
+-- Dumping data untuk tabel `sutradara`
 --
 
 INSERT INTO `sutradara` (`id_sutradara`, `nama_sutradara`) VALUES
@@ -1350,160 +1370,41 @@ INSERT INTO `sutradara` (`id_sutradara`, `nama_sutradara`) VALUES
 (69, 'Adam Cooper');
 
 --
--- Indexes for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Indexes for table `aktor`
---
-ALTER TABLE `aktor`
-  ADD PRIMARY KEY (`id_aktor`);
-
---
--- Indexes for table `detail_aktor`
---
-ALTER TABLE `detail_aktor`
-  ADD PRIMARY KEY (`id_daktor`),
-  ADD KEY `film_id` (`id_film`),
-  ADD KEY `aktor_id` (`id_aktor`);
-
---
--- Indexes for table `detail_sutradara`
---
-ALTER TABLE `detail_sutradara`
-  ADD PRIMARY KEY (`id_dsutradara`),
-  ADD KEY `film_id` (`id_film`),
-  ADD KEY `sutradara_id` (`id_sutradara`);
-
---
--- Indexes for table `film`
---
-ALTER TABLE `film`
-  ADD PRIMARY KEY (`id_film`),
-  ADD KEY `kategori_id` (`id_genre`);
-
---
--- Indexes for table `foto`
---
-ALTER TABLE `foto`
-  ADD PRIMARY KEY (`id_foto`),
-  ADD KEY `film_id` (`id_film`);
-
---
--- Indexes for table `genre`
---
-ALTER TABLE `genre`
-  ADD PRIMARY KEY (`id_genre`);
-
---
--- Indexes for table `login`
---
-ALTER TABLE `login`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `rating`
---
-ALTER TABLE `rating`
-  ADD PRIMARY KEY (`id_rating`),
-  ADD KEY `film_id` (`id_film`),
-  ADD KEY `user_id` (`username`);
-
---
--- Indexes for table `sutradara`
---
-ALTER TABLE `sutradara`
-  ADD PRIMARY KEY (`id_sutradara`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `aktor`
---
-ALTER TABLE `aktor`
-  MODIFY `id_aktor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=281;
-
---
--- AUTO_INCREMENT for table `detail_aktor`
---
-ALTER TABLE `detail_aktor`
-  MODIFY `id_daktor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=354;
-
---
--- AUTO_INCREMENT for table `detail_sutradara`
---
-ALTER TABLE `detail_sutradara`
-  MODIFY `id_dsutradara` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
-
---
--- AUTO_INCREMENT for table `film`
---
-ALTER TABLE `film`
-  MODIFY `id_film` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
-
---
--- AUTO_INCREMENT for table `foto`
---
-ALTER TABLE `foto`
-  MODIFY `id_foto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=377;
-
---
--- AUTO_INCREMENT for table `genre`
---
-ALTER TABLE `genre`
-  MODIFY `id_genre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `rating`
---
-ALTER TABLE `rating`
-  MODIFY `id_rating` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
-
---
--- AUTO_INCREMENT for table `sutradara`
---
-ALTER TABLE `sutradara`
-  MODIFY `id_sutradara` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `detail_aktor`
+-- Ketidakleluasaan untuk tabel `detail_aktor`
 --
 ALTER TABLE `detail_aktor`
   ADD CONSTRAINT `detail_aktor_ibfk_1` FOREIGN KEY (`id_film`) REFERENCES `film` (`id_film`),
   ADD CONSTRAINT `detail_aktor_ibfk_2` FOREIGN KEY (`id_aktor`) REFERENCES `aktor` (`id_aktor`);
 
 --
--- Constraints for table `detail_sutradara`
+-- Ketidakleluasaan untuk tabel `detail_sutradara`
 --
 ALTER TABLE `detail_sutradara`
   ADD CONSTRAINT `detail_sutradara_ibfk_1` FOREIGN KEY (`id_film`) REFERENCES `film` (`id_film`),
   ADD CONSTRAINT `detail_sutradara_ibfk_2` FOREIGN KEY (`id_sutradara`) REFERENCES `sutradara` (`id_sutradara`);
 
 --
--- Constraints for table `film`
+-- Ketidakleluasaan untuk tabel `film`
 --
 ALTER TABLE `film`
   ADD CONSTRAINT `film_ibfk_1` FOREIGN KEY (`id_genre`) REFERENCES `genre` (`id_genre`);
 
 --
--- Constraints for table `foto`
+-- Ketidakleluasaan untuk tabel `foto`
 --
 ALTER TABLE `foto`
   ADD CONSTRAINT `foto_ibfk_1` FOREIGN KEY (`id_film`) REFERENCES `film` (`id_film`);
 
 --
--- Constraints for table `rating`
+-- Ketidakleluasaan untuk tabel `rating`
 --
 ALTER TABLE `rating`
   ADD CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`id_film`) REFERENCES `film` (`id_film`),
   ADD CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`username`) REFERENCES `login` (`username`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
